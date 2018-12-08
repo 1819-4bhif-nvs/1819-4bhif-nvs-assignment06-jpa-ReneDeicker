@@ -1,0 +1,78 @@
+package at.htl;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+public class CarDealerTest {
+    private Client client;
+    private WebTarget target;
+
+    private final JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+
+    @Before
+    public void initClient(){
+        this.client = ClientBuilder.newClient();
+        this.target = client.target("http://localhost:8080/cardealerManagement");
+    }
+    @Test
+    public void t01_crud_CarExemplarEndpoint(){
+        //Create
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/carExemplars/insertCarExemplar");
+        JsonObject carExemplar = jsonBuilder
+                .add("mileage", 25)
+                .add("horsepower", 90)
+                .add("color", "Grau")
+                .add("carType", Json.createObjectBuilder().add("brand", "Seat").add("model", "Leon"))
+                .build();
+
+        System.out.println(carExemplar);
+        Response response =this.target
+                .request()
+                .post(Entity.json(carExemplar));
+
+        JsonObject entity = response.readEntity(JsonObject.class);
+        int id = entity.getInt("id");
+        System.out.println(id);
+        assertThat(response.getStatus(), is(200));
+        assertThat(entity.getInt("mileage"), is(25));
+
+        //Get
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/carExemplars/getCarExemplar/"+id);
+        carExemplar = this.target.request(MediaType.APPLICATION_JSON).get(JsonObject.class);
+        assertThat(carExemplar.getInt("mileage"), is(25));
+        assertThat(carExemplar.getInt("horsepower"), is(90));
+        assertThat(carExemplar.getString("color"), is("Grau"));
+
+        //Update
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/carExemplars/updateCarExemplar/" + id);
+        carExemplar = jsonBuilder
+                .add("mileage", 30)
+                .add("horsepower", 120)
+                .add("color", "Grau")
+                .add("carType", Json.createObjectBuilder().add("brand", "Seat").add("model", "Leon"))
+                .build();
+
+        response = target.request()
+                .put(Entity.json(carExemplar));
+        entity = response.readEntity(JsonObject.class);
+        assertThat(entity.getInt("mileage"), is(30));
+        assertThat(entity.getInt("horsepower"), is(120));
+
+        //Delete
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/carExemplars/deleteCarExemplar/" + id);
+        this.target.request().delete();
+    }
+}
