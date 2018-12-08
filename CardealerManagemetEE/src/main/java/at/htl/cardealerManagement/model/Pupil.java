@@ -1,6 +1,7 @@
 package at.htl.cardealerManagement.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -14,14 +15,24 @@ public class Pupil {
     private String city;
     private String street;
     private int zipCode;
+    private LocalDate birthDate;
 
-    public Pupil(String firstName, String lastName, String phoneNumber, String city, String street, int zipCode) {
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public Pupil(String firstName, String lastName, String phoneNumber, String city, String street, int zipCode, LocalDate birthDate) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.street = street;
         this.zipCode = zipCode;
+        this.birthDate = birthDate;
     }
 
     public Pupil() {

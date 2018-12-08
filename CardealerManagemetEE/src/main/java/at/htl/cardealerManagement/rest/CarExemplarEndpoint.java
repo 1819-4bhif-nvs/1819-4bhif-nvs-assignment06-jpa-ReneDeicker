@@ -12,19 +12,10 @@ import java.util.List;
 
 @Stateless
 @Path("carExemplars")
-public class CardealerManagementEndpoint {
+public class CarExemplarEndpoint {
 
     @PersistenceContext
     protected EntityManager em;
-
-    @GET
-    @Path("/getCarExemplars")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<CarExemplar> getCarExemplars(){
-        TypedQuery<CarExemplar> query = em.createNamedQuery("CarExemplar.findAll", CarExemplar.class);
-        System.out.println("**** returned All CarExemplars");
-        return query.getResultList();
-    }
 
     @POST
     @Path("/insertCarExemplar")

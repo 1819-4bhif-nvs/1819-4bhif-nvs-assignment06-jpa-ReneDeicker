@@ -28,7 +28,7 @@ public class CarDealerTest {
         this.target = client.target("http://localhost:8080/cardealerManagement");
     }
     @Test
-    public void t01_crud_CarExemplarEndpoint(){
+    public void t010_crud_CarExemplarEndpoint(){
         //Create
         this.target = client.target("http://localhost:8080/cardealerManagement/rs/carExemplars/insertCarExemplar");
         JsonObject carExemplar = jsonBuilder
@@ -38,7 +38,6 @@ public class CarDealerTest {
                 .add("carType", Json.createObjectBuilder().add("brand", "Seat").add("model", "Leon"))
                 .build();
 
-        System.out.println(carExemplar);
         Response response =this.target
                 .request()
                 .post(Entity.json(carExemplar));
@@ -73,6 +72,61 @@ public class CarDealerTest {
 
         //Delete
         this.target = client.target("http://localhost:8080/cardealerManagement/rs/carExemplars/deleteCarExemplar/" + id);
+        this.target.request().delete();
+    }
+
+    @Test
+    public void t020_crud_CustomerEndpoint(){
+
+        //Create
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/customers/insertCustomer");
+        JsonObject customer = jsonBuilder
+                .add("firstName", "Max")
+                .add("lastName", "Mustermann")
+                .add("phoneNumber", "+4369916589003")
+                .add("city", "Linz")
+                .add("street", "Hafenstraße")
+                .add("zipCode", 4020)
+                .add("birthDate", "1998-05-06")
+                .add("IBAN", "AL90208110080000001039531801")
+                .build();
+
+        Response response =this.target
+                .request()
+                .post(Entity.json(customer));
+
+        JsonObject entity = response.readEntity(JsonObject.class);
+        int id = entity.getInt("id");
+        System.out.println(id);
+        assertThat(response.getStatus(), is(200));
+        assertThat(entity.getString("phoneNumber"), is("+4369916589003"));
+        assertThat(entity.getString("birthDate"), is("1998-05-06"));
+
+        //Get
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/customers/getCustomer/"+id);
+        customer = this.target.request(MediaType.APPLICATION_JSON).get(JsonObject.class);
+        assertThat(customer.getString("phoneNumber"), is("+4369916589003"));
+
+        //Update
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/customers/updateCustomer/" + id);
+        customer = jsonBuilder
+                .add("firstName", "Max")
+                .add("lastName", "Mustermann")
+                .add("phoneNumber", "+4369989546220")
+                .add("city", "Linz")
+                .add("street", "Hafenstraße")
+                .add("zipCode", 4020)
+                .add("birthDate", "1998-05-06")
+                .add("IBAN", "AL90208110080000001039531801")
+                .build();
+
+        response = target.request()
+                .put(Entity.json(customer));
+        entity = response.readEntity(JsonObject.class);
+        assertThat(entity.getString("phoneNumber"), is("+4369989546220"));
+
+        //Delete
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/customers/deleteCustomer/" + id);
         this.target.request().delete();
     }
 }

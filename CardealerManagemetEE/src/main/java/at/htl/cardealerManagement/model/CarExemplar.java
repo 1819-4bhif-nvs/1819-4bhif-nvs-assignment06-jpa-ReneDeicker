@@ -2,7 +2,6 @@ package at.htl.cardealerManagement.model;
 
 import javax.persistence.*;
 
-@NamedQuery(name = "CarExemplar.findAll", query = "select c from CarExemplar c")
 @Entity
 public class CarExemplar {
     @Id
