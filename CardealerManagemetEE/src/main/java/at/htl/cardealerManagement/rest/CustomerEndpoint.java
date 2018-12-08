@@ -36,7 +36,7 @@ public class CustomerEndpoint {
     }
 
     @PUT
-        @Path("/updateCustomer/{id}")
+    @Path("/updateCustomer/{id}")
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

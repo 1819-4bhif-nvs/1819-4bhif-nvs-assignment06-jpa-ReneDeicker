@@ -129,4 +129,61 @@ public class CarDealerTest {
         this.target = client.target("http://localhost:8080/cardealerManagement/rs/customers/deleteCustomer/" + id);
         this.target.request().delete();
     }
+
+    @Test
+    public void t030_crud_EmployeeEndpoint(){
+
+        //Create
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/employees/insertEmployee");
+        JsonObject employee = jsonBuilder
+                .add("firstName", "Max")
+                .add("lastName", "Mustermann")
+                .add("phoneNumber", "+4369916589003")
+                .add("city", "Linz")
+                .add("street", "Hafenstraße")
+                .add("zipCode", 4020)
+                .add("birthDate", "1998-05-06")
+                .add("salary", 3500)
+                .add("socialSecurityNumber", "1234010180")
+                .build();
+
+        Response response =this.target
+                .request()
+                .post(Entity.json(employee));
+
+        JsonObject entity = response.readEntity(JsonObject.class);
+        int id = entity.getInt("id");
+        System.out.println(id);
+        assertThat(response.getStatus(), is(200));
+        assertThat(entity.getString("phoneNumber"), is("+4369916589003"));
+        assertThat(entity.getString("birthDate"), is("1998-05-06"));
+
+        //Get
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/employees/getEmployee/"+id);
+        employee = this.target.request(MediaType.APPLICATION_JSON).get(JsonObject.class);
+        assertThat(employee.getString("phoneNumber"), is("+4369916589003"));
+
+        //Update
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/employees/updateEmployee/" + id);
+        employee = jsonBuilder
+                .add("firstName", "Max")
+                .add("lastName", "Mustermann")
+                .add("phoneNumber", "+4369989546220")
+                .add("city", "Linz")
+                .add("street", "Hafenstraße")
+                .add("zipCode", 4020)
+                .add("birthDate", "1998-05-06")
+                .add("salary", 3500)
+                .add("socialSecurityNumber", "1234010180")
+                .build();
+
+        response = target.request()
+                .put(Entity.json(employee));
+        entity = response.readEntity(JsonObject.class);
+        assertThat(entity.getString("phoneNumber"), is("+4369989546220"));
+
+        //Delete
+        this.target = client.target("http://localhost:8080/cardealerManagement/rs/employees/deleteEmployee/" + id);
+        this.target.request().delete();
+    }
 }
