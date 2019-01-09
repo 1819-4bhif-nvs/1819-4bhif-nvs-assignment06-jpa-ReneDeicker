@@ -14,6 +14,54 @@ public class CarExemplar {
 
     @OneToOne(cascade = CascadeType.ALL)
     private CarType carType;
+    @OneToOne (cascade = CascadeType.ALL)
+    private Customer oldCarOwner;
+    @OneToOne (cascade = CascadeType.ALL)
+    private Customer newCarOwner;
+    @OneToOne (cascade = CascadeType.ALL)
+    private Employee seller;
+
+    public CarType getCarType() {
+        return carType;
+    }
+
+    public void setCarType(CarType carType) {
+        this.carType = carType;
+    }
+
+    public Customer getOldCarOwner() {
+        return oldCarOwner;
+    }
+
+    public CarExemplar(int mileage, int horsepower, String color, CarType carType, Customer oldCarOwner, Customer newCarOwner, Employee seller) {
+        this.mileage = mileage;
+        this.horsepower = horsepower;
+        this.color = color;
+        this.carType = carType;
+        this.oldCarOwner = oldCarOwner;
+        this.newCarOwner = newCarOwner;
+        this.seller = seller;
+    }
+
+    public void setOldCarOwner(Customer oldCarOwner) {
+        this.oldCarOwner = oldCarOwner;
+    }
+
+    public Customer getNewCarOwner() {
+        return newCarOwner;
+    }
+
+    public void setNewCarOwner(Customer newCarOwner) {
+        this.newCarOwner = newCarOwner;
+    }
+
+    public Employee getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Employee seller) {
+        this.seller = seller;
+    }
 
     public CarExemplar(int mileage, int horsepower, String color, CarType carType) {
         this.mileage = mileage;
