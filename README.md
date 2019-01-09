@@ -1,6 +1,13 @@
 # 1819_4bhif_nvs_assignment06_jpa
 Übungsbeispiel mit individueller Aufgabenstellung zum Thema JPA
 
+Thema: Autohausverwaltung
+
+# CLD
+![CLD](./CardealerManagemetEE/CLD.png)
+
+# ERD
+![CLD](./CardealerManagemetEE/ERD.png)
 
 # Aufgabenstellung
 
