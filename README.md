@@ -4,10 +4,10 @@
 Thema: Autohausverwaltung
 
 # CLD
-![CLD](./CardealerManagemetEE/CLD.png)
+![CLD](./CLD.png)
 
 # ERD
-![CLD](./CardealerManagemetEE/ERD.png)
+![CLD](./ERD.png)
 
 # Aufgabenstellung
 
