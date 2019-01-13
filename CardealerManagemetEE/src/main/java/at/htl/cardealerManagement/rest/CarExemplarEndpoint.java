@@ -1,6 +1,6 @@
 package at.htl.cardealerManagement.rest;
 
-import at.htl.cardealerManagement.model.CarExemplar;
+import at.htl.cardealerManagement.model.*;
 
 import javax.ejb.Stateless;
 import javax.persistence.*;
