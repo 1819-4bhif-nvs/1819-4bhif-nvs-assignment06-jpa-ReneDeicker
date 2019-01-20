@@ -1,15 +1,16 @@
 package at.htl.cardealerManagement.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class CarType {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     private String brand;
     private String model;
+
+    @OneToMany(mappedBy = "carType", cascade = CascadeType.ALL)
+    private List<CarExemplar> cars;
 
     public CarType(String brand, String model) {
         this.brand = brand;

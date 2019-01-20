@@ -12,7 +12,7 @@ public class CarExemplar {
     private int horsepower;
     private String color;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private CarType carType;
 
 
